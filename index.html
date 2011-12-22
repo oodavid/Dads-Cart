@@ -7,7 +7,7 @@
 	<style>
 		.clear {clear: both; display: block; overflow: hidden; visibility: hidden; width: 0; height: 0;}
 		/* Dad's Cart! */
-			/* Generally speaking */
+			/* Generally speaking... */
 				.myButton {padding: 2px 6px; font-weight: bold; background: #B0356A; color: #FFFFFF; text-align: center; border: none; cursor: pointer; -webkit-border-radius: 2px; -moz-border-radius: 2px; border-radius: 2px;}
 			/* The link */
 				#cart-link						{float: left; padding: 10px; line-height: 32px; background: #E6E6E6; cursor: pointer;}
@@ -29,8 +29,10 @@
 			/* The popup message */
 				#cart-message	{display: none; position: fixed; z-index: 1000; top: 20px; left: 50%; width: 250px; margin: 0 0 0 -125px; padding: 20px; text-align: center; font-size: 16px; background: #282828; color: #FFFFFF;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px;}
 	</style>
+	<link rel="stylesheet" type="text/css" href="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.css" />
+	<script src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
 </head>
-<body>
+<body onload="prettyPrint()">
 	<h1>Dad's Cart!</h1>
 	<!-- Dad's cart -->
 		<!-- Cart link -->
@@ -87,5 +89,42 @@
 	<p class="cart-item" data-uid="567"><span class="cart-title">bricks</span> <button class="myButton cart-add">add to cart</button> - no price, defaults to free</p>
 	<p data-uid="678"><span class="cart-title">blocks</span> <button class="myButton cart-add">add to cart</button> - not in a &quot;cart-item&quot; class, breaks</p>
 	<p class="cart-item"><span class="cart-title">doodah</span> <button class="myButton cart-add">add to cart</button> - no uid, breaks</p>
+	
+	
+	
+	
+	<!-- What follows is simply the tutorial -->
+	<hr />
+	<h1>Instructions</h1>
+	<p>incude the following js files:</p>
+	<ul>
+		<li><strong>jquery.1.7.1.min.js</strong><br /><em>earlier and later probably work too</em></li>
+		<li><strong>jstorage.min.js</strong><br /><em>a 3rd party plugin for cross-browser localstorage support</em></li>
+		<li><strong>dadscart.js</strong><br /><em>the cart</em></li>
+	</ul>
+	<p>Tweak your markup</p>
+	<h2>The cart link</h2>
+	<pre id="code-cart-link" class="prettyprint lang-html"></pre>
+	<script>
+		// In order to populate the code snippets with actual source, we need outerHTML...
+		//  this one also trims down extraneous tabs :-)
+		jQuery.fn.outerHTML = function(s) {
+			// Grab the HTML, from http://www.yelotofu.com/2008/08/jquery-outerhtml/
+			var html = (s) ? this.before(s).remove() : jQuery("<p>").append(this.eq(0).clone()).html();
+			// Looking at the HTML, the number of tabs prefixing the last line is how many we should trim from every line
+			var regex = /^(\s+)\S/;
+			var lastline = html.split("\n").pop();
+			var tmp = lastline.match(regex);
+			if(tmp){
+				var whitespace_chars = Array(tmp[1].length+1).join('\\\s')
+				console.log(whitespace_chars);
+				var regex = new RegExp('^' + whitespace_chars, "mgi");
+				html = html.replace(regex, '');
+			}
+			return html;
+		}
+		// Now implement it
+		$('#code-cart-link').text($('#cart-link').outerHTML());
+	</script>
 </body>
 </html>
