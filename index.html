@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="jquery.1.7.1.min.js"></script>
+	<script src="jstorage.min.js"></script>
+	<script src="dadscart.js"></script>
+	<style>
+		/* Dad's Cart! */
+			/* The link */
+				#cart-link						{float: left; padding: 10px; line-height: 32px; background: #E6E6E6; cursor: pointer;}
+				#cart-link img					{vertical-align: middle;}
+				#cart-link .cart-total-items,
+				#cart-link .cart-total-products,
+				#cart-link .cart-total-price	{padding: 2px 6px; font-weight: bold; background: #B0356A; color: #FFFFFF; -webkit-border-radius: 2px; -moz-border-radius: 2px; border-radius: 2px;}
+			/* The review */
+				#cart-review {display: none; position: absolute; z-index: 999; top: 20px; left: 50%; width: 500px; margin: 0 0 0 -250px; background: #FFFFFF; border: 1px solid #000000;}
+				/* The review items */
+					#cart-review-item {display: none;}
+					.cart-review-item {}
+					.cart-review-item .cart-remove {cursor: pointer;}
+			/* The popup message */
+				#cart-message	{display: none; position: fixed; z-index: 1000; top: 20px; left: 50%; width: 250px; margin: 0 0 0 -125px; padding: 20px; text-align: center; font-size: 16px; background: #282828; color: #FFFFFF;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px;}
+	</style>
+</head>
+<body>
+	<h1>Dad's Cart!</h1>
+	<!-- Dad's cart -->
+		<!-- Cart link -->
+		<div id="cart-link" data-currency="&pound;">
+			<img src="/cart.png" width="32" height="32" />
+			<span class="cart-total-products">0</span>
+			or
+			<span class="cart-total-items">0</span>
+			or
+			<span class="cart-total-price">0</span>
+		</div>
+		<!-- Message box -->
+		<div id="cart-message"></div>
+		<!-- Review -->
+		<div id="cart-review">
+			<form action="/checkout.php" method="post">
+				<p>product, qty, cost</p>
+				<div id="cart-review-items"></div>
+				<input placeholder="email" name="email" />
+				<button type="submit">checkout</button>
+			</form>
+			<span class="cart-total-products">0</span>
+			<span class="cart-total-items">0</span>
+			<span class="cart-total-price">0</span>
+		</div>
+		<!-- An item "template" (not a proper jQuery TMPL!) -->
+		<script id="cart-review-item" type="text/x-dadscart-tmpl">
+			<div class="cart-review-item">
+				<input type="hidden" name="checkout[{{uid}}]" value="{{qty}}">
+				<span>{{uid}}</span>
+				<a href="{{url}}">{{title}}</a>
+				<span>{{price}}</span>
+				<span>{{qty}}</span>
+				<span class="cart-remove">remove</span>
+			</div>
+		</script>
+	<!-- Then the rest of your page happens... -->
+	<div style="clear: both;"></div>
+	<!-- You define your items in the following manner -->
+	<p class="cart-item" data-uid="123"><span class="cart-title">coffee cup</span> <span class="cart-price">10.00</span> <input class="cart-qty" value="1" /> <button class="cart-add">add to cart</button></p>
+	<p class="cart-item" data-uid="234"><span class="cart-title">mobile phone</span> <span class="cart-price">15.00</span> <input class="cart-qty" value="1" /> <button class="cart-add">add to cart</button></p>
+	<p class="cart-item" data-uid="345"><span class="cart-title">pen</span> <span class="cart-price">25.00</span> <button class="cart-add">add to cart</button> - no qty, defaults to 1</p>
+	<p class="cart-item" data-uid="456"><span class="cart-title">pen</span> <span class="cart-price">25.00</span> <span class="cart-custom">custom value</span> <button class="cart-add">add to cart</button> - custom properties, run DC.get() to see it in action</p>
+	<p class="cart-item" data-uid="567"><span class="cart-title">pen</span> <button class="cart-add">add to cart</button> - no price, breaks</p>
+	<p data-uid="678"><span class="cart-title">pen</span> <button class="cart-add">add to cart</button> - not in a &quot;cart-item&quot; class, breaks</p>
+	<p class="cart-item"><span class="cart-title">pen</span> <button class="cart-add">add to cart</button> - no uid, breaks</p>
+</body>
+</html>
