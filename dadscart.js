@@ -68,10 +68,9 @@ DC.add = function(e){
 	// Add the uid and the current url
 	itemdata.uid	= item.attr('data-uid');
 	itemdata.href	= location.href;
-	// If we don't have a qty, set it to 1
-	itemdata.qty = itemdata.qty ? parseFloat(itemdata.qty) : 1;
-	// We must have a floated price
-	itemdata.price = parseFloat(itemdata.price);
+	// qty defaults to 1, price to 0
+	itemdata.qty	= parseFloat(itemdata.qty)		|| 1;
+	itemdata.price	= parseFloat(itemdata.price)	|| 0;
 	// Do we already have an item with that uid?
 	if(cart[itemdata.uid]){
 		// Update the qty
@@ -140,6 +139,10 @@ DC.refresh = function(){
 		var tmpl = $('#cart-review-item').html();
 		// Loop all the properties and replace the placeholders
 		$.each(v, function(k2,v2){
+			// If it's the price, moneyfy it
+			if(k2 == 'price'){
+				v2 = DC.toMoney(v2);
+			}
 			var regex = new RegExp('{{' + k2 + '}}', "gi");
 			tmpl = tmpl.replace(regex, v2);
 		});
@@ -156,9 +159,9 @@ DC.refresh = function(){
 
 /****************** Utilities *******************/
 
-DC.toMoney = function(number){
+DC.toMoney = function(value){
 	// Returns a currency-formatted number
-	return DC.currency + number.toFixed(2);
+	return DC.currency + parseFloat(value).toFixed(2);
 };
 DC.message = function(html){
 	$('#cart-message').stop(true).html(html).fadeIn(400).delay(800).fadeOut(400);

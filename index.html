@@ -68,7 +68,7 @@
 		<script id="cart-review-item" type="text/x-dadscart-tmpl">
 			<div class="cart-review-item">
 				<input type="hidden" name="checkout[{{uid}}]" value="{{qty}}">
-				<a class="description" href="{{url}}">{{title}}</a>
+				<a class="description" href="{{href}}">{{title}}</a>
 				<span class="qty">{{qty}}</span>
 				<span class="price">{{price}}</span>
 				<span class="myButton cart-remove">remove</span>
@@ -81,9 +81,11 @@
 	<p class="cart-item" data-uid="123"><span class="cart-title">coffee cup</span> <span class="cart-price">10.00</span> <input class="cart-qty" value="1" /> <button class="myButton cart-add">add to cart</button></p>
 	<p class="cart-item" data-uid="234"><span class="cart-title">mobile phone</span> <span class="cart-price">15.00</span> <input class="cart-qty" value="1" /> <button class="myButton cart-add">add to cart</button></p>
 	<p class="cart-item" data-uid="345"><span class="cart-title">pen</span> <span class="cart-price">25.00</span> <button class="myButton cart-add">add to cart</button> - no qty, defaults to 1</p>
-	<p class="cart-item" data-uid="456"><span class="cart-title">pen</span> <span class="cart-price">25.00</span> <span class="cart-custom">custom value</span> <button class="myButton cart-add">add to cart</button> - custom properties, run DC.get() to see it in action</p>
-	<p class="cart-item" data-uid="567"><span class="cart-title">pen</span> <button class="myButton cart-add">add to cart</button> - no price, breaks</p>
-	<p data-uid="678"><span class="cart-title">pen</span> <button class="myButton cart-add">add to cart</button> - not in a &quot;cart-item&quot; class, breaks</p>
-	<p class="cart-item"><span class="cart-title">pen</span> <button class="myButton cart-add">add to cart</button> - no uid, breaks</p>
+	<p class="cart-item" data-uid="abc-1"><span class="cart-title">ABC set (1)</span> <span class="cart-price">00.00</span> <button class="myButton cart-add">add to cart</button> - this is a free item</p>
+	<p class="cart-item" data-uid="abc-2"><span class="cart-title">ABC set (2)</span> <span class="cart-price">FREE</span> <button class="myButton cart-add">add to cart</button> - as is this</p>
+	<p class="cart-item" data-uid="456"><span class="cart-title">pencil</span> <span class="cart-price">25.00</span> <span class="cart-custom">custom value</span> <button class="myButton cart-add">add to cart</button> - custom properties, run DC.get() to see it in action</p>
+	<p class="cart-item" data-uid="567"><span class="cart-title">bricks</span> <button class="myButton cart-add">add to cart</button> - no price, defaults to free</p>
+	<p data-uid="678"><span class="cart-title">blocks</span> <button class="myButton cart-add">add to cart</button> - not in a &quot;cart-item&quot; class, breaks</p>
+	<p class="cart-item"><span class="cart-title">doodah</span> <button class="myButton cart-add">add to cart</button> - no uid, breaks</p>
 </body>
 </html>
