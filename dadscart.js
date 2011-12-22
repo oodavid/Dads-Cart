@@ -161,5 +161,5 @@ DC.toMoney = function(number){
 	return DC.currency + number.toFixed(2);
 };
 DC.message = function(html){
-	$('#cart-message').html(html).fadeIn(400).delay(800).fadeOut(400);
+	$('#cart-message').stop(true).html(html).fadeIn(400).delay(800).fadeOut(400);
 };
