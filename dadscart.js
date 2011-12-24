@@ -1,11 +1,9 @@
 DC = {};
 
-/***************** Dad's Cart! ******************/
+/***************** Dads Cart! ******************/
 
-DC.currency = '£';
+DC.currency = '&pound;';
 DC.init = function(e){
-	// Pull out the currency if we can
-	DC.currency = $('#cart-link').attr('data-currency') || DC.currency;
 	// Activate the cart-add and cart-remove buttons
 	$('.cart-add').on('click', DC.add);
 	$('.cart-remove').on('click', DC.remove);
@@ -39,11 +37,11 @@ DC.add = function(e){
 	var item = $(this).closest('.cart-item, .cart-review-item');
 	// It must exist and have an ID
 	if(!item.length || !item.attr('data-uid')){
-		DC.message('couldn\'t add item to cart');
+		DC.message('unable to add this item');
 		return;
 	}
-	// Find all the "properties" of the item
-	var properties = item.find("[class^='cart-p-'], [class*=' cart-p-']");
+	// Find all the properties of the item
+	var properties = item.find("[class^=cart-p-], [class*= cart-p-]");
 	// Build them into a proper data object
 	var itemdata = {};
 	var regex = /(^|\s)cart-p-(.*)/i;
@@ -77,7 +75,7 @@ DC.add = function(e){
 	DC.message('item added to cart');
 	// Refresh the interface
 	DC.refresh();
-	// If the review is open, we don't want to close it
+	// If the review is open, we dont want to close it
 	e.stopPropagation();
 };
 DC.remove = function(e){
@@ -87,7 +85,7 @@ DC.remove = function(e){
 	var item = $(this).closest('.cart-item, .cart-review-item');
 	// It must exist and have an ID
 	if(!item.length || !item.attr('data-uid')){
-		DC.message('couldn\'t remove this item');
+		DC.message('unable to remove this item');
 		return;
 	}
 	// Remove the item
@@ -96,7 +94,7 @@ DC.remove = function(e){
 	var cart = $.jStorage.set('dads-cart', cart);
 	// Refresh the interface
 	DC.refresh();
-	// If the review is open, we don't want to close it
+	// If the review is open, we dont want to close it
 	e.stopPropagation();
 };
 DC.empty = function(e){
@@ -128,25 +126,33 @@ DC.refresh = function(){
 	// Build the products listing...
 	$('#cart-review-items').empty();
 	$.each(cart, function(k,v){
-		// Pull out the template
-		var tmpl = $('#cart-review-item-template').html();
-		// Loop all the properties and replace the placeholders
-		$.each(v, function(k2,v2){
-			// If it's the price, moneyfy it
-			if(k2 == 'price'){
-				v2 = DC.toMoney(v2);
-			}
-			var regex = new RegExp('{{' + k2 + '}}', "gi");
-			tmpl = tmpl.replace(regex, v2);
-		});
+		// Do we have $.tmpl?
+		if($.tmpl){
+			// Use $.tmpl
+			debugger
+			var item = $('#cart-review-item-template').tmpl(v);
+		} else {
+			// Pull out the template contents
+			var tmpl = $('#cart-review-item-template').html();
+			// My simple templating :-)
+			$.each(v, function(k2,v2){
+				// If its the price, moneyfy it
+				if(k2 == 'price'){
+					v2 = DC.toMoney(v2);
+				}
+				var regex = new RegExp('\\${' + k2 + '}', "gi");
+				tmpl = tmpl.replace(regex, v2);
+			});
+			// Add it to the DOM
+			var item = $(tmpl);
+		}
 		// Set the uid
-		tmpl = $(tmpl);
-		tmpl.attr('data-uid', k);
-		// Add the events (for some reason "on" doesn't catch this)
-		tmpl.find('.cart-add').click(DC.add);
-		tmpl.find('.cart-remove').click(DC.remove);
+		item.attr('data-uid', k);
+		// Add the events (for some reason $.on doesnt catch this)
+		item.find('.cart-add').click(DC.add);
+		item.find('.cart-remove').click(DC.remove);
 		// Add it
-		$('#cart-review-items').append(tmpl);
+		$('#cart-review-items').append(item);
 	});
 };
 

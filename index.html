@@ -17,7 +17,7 @@
 				#cart-link img	{vertical-align: middle;}
 				#cart-link span	{padding: 2px 6px; font-weight: bold; background: #B0356A; color: #FFFFFF; -webkit-border-radius: 2px; -moz-border-radius: 2px; border-radius: 2px;}
 			/* The review */
-				#cart-review {display: none; position: absolute; z-index: 999; top: 80px; left: 50%; width: 460px; margin: 0 0 0 -230px; background: #EEEEEE; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 0 0 10px #AAAAAA; -webkit-box-shadow: 0 0 10px #AAAAAA; box-shadow: 0 0 10px #AAAAAA;}
+				#cart-review {display: none; position: absolute; z-index: 999; top: 180px; left: 50%; width: 460px; margin: 0 0 0 -230px; background: #EEEEEE; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 0 0 10px #AAAAAA; -webkit-box-shadow: 0 0 10px #AAAAAA; box-shadow: 0 0 10px #AAAAAA;}
 				#cart-review h2 {text-align: center;}
 				#cart-review .headings {font-weight: bold; margin: 0 0 10px 0;}
 				#cart-review .description	{float: left; width: 208px; margin: 0 0 0 10px;}
@@ -36,6 +36,7 @@
 	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
 	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
 	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushXml.js" type="text/javascript"></script>
+	<script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJScript.js" type="text/javascript"></script>
 	<style>
 		.myCode {width: 800px;}
 		.syntaxhighlighter {margin: 0!important;}
@@ -55,56 +56,66 @@
 		
 		<!-- Demo -->
 		<h1>Demo</h1>
-		<!-- Dad's cart -->
-			<!-- Cart link -->
-			<span id="cart-link" data-currency="&pound;">
-				<img src="cart.png" width="32" height="32" />
-				<span class="cart-total-items">0</span>
-			</span>
-			<!-- Totals demo -->
-			<p id="my-demo-totals">
-				total...
-				items: <span class="cart-total-items">0</span>,
-				quantity: <span class="cart-total-qty">0</span>,
-				price: <span class="cart-total-price">0</span>
-			</p>
-			<!-- Message box -->
-			<div id="cart-message"></div>
-			<!-- Review -->
-			<div id="cart-review">
-				<form action="/checkout.php" method="post">
-					<h2>Cart review</h2>
-					<div class="headings">
-						<span class="description">Description</span>
-						<span class="qty">Qty.</span>
-						<span class="price">Price</span>
-						<div class="clear"></div>
-					</div>
-					<div id="cart-review-items"></div>
-					<div class="headings">
-						<span class="description">Totals</span>
-						<span class="qty cart-total-qty">0</span>
-						<span class="price cart-total-price">0</span>
-						<div class="clear"></div>
-					</div>
-					<button class="myButton submit" type="submit">checkout</button>
-					<div class="clear"></div>
-				</form>
-			</div>
-			<!-- cart-review-item-template -->
-			<script id="cart-review-item-template" type="text/x-jquery-tmpl">
-				<div class="cart-review-item">
-					<!-- Our <form> needs to know the id and quantity -->
-					<input type="hidden" name="checkout[{{uid}}]" value="{{qty}}">
-					<!-- Some info for the user -->
-					<a class="description" href="{{href}}">{{title}}</a>
-					<span class="qty">{{qty}}</span>
-					<span class="price">{{price}}</span>
-					<!-- To remove the item -->
-					<span class="myButton cart-remove">remove</span>
+		
+		<!-- Message box (fixed position) -->
+		<div id="cart-message"></div>
+		
+		<!-- Review (absolutely positioned) -->
+		<div id="cart-review">
+			<!-- A form of my making -->
+			<form action="/checkout.php" method="post">
+				<!-- The titles -->
+				<h2>Cart review</h2>
+				<div class="headings">
+					<span class="description">Description</span>
+					<span class="qty">Qty.</span>
+					<span class="price">Price</span>
 					<div class="clear"></div>
 				</div>
-			</script>
+				<!-- The items to review -->
+				<div id="cart-review-items"></div>
+				<!-- The totals -->
+				<div class="headings">
+					<span class="description">Totals</span>
+					<span class="qty cart-total-qty">0</span>
+					<span class="price cart-total-price">0</span>
+					<div class="clear"></div>
+				</div>
+				<!-- Post the form :-) -->
+				<button class="myButton submit" type="submit">checkout</button>
+				<div class="clear"></div>
+			</form>
+		</div>
+		
+		<!-- cart-review-item-template -->
+		<script id="cart-review-item-template" type="text/x-jquery-tmpl">
+			<div class="cart-review-item">
+				<!-- Our <form> needs to know the id and quantity -->
+				<input type="hidden" name="checkout[${uid}]" value="${qty}">
+				<!-- Some info for the user -->
+				<a class="description" href="${href}">${title}</a>
+				<span class="qty">${qty}</span>
+				<span class="price">${price}</span>
+				<!-- To remove the item -->
+				<span class="myButton cart-remove">remove</span>
+				<div class="clear"></div>
+			</div>
+		</script>
+		
+		<!-- Cart link -->
+		<span id="cart-link">
+			<img src="cart.png" width="32" height="32" />
+			<span class="cart-total-items">0</span>
+		</span>
+		
+		<!-- Totals example -->
+		<p id="my-demo-totals">
+			total...
+			items: <span class="cart-total-items">0</span>,
+			quantity: <span class="cart-total-qty">0</span>,
+			price: <span class="cart-total-price">0</span>
+		</p>
+		
 		<!-- You define your items in the following manner -->
 		<p class="cart-item" data-uid="123">
 			<span class="cart-p-title">coffee cup</span>
@@ -112,14 +123,52 @@
 			<input class="cart-p-qty" value="1" />
 			<button class="myButton cart-add">add to cart</button>
 		</p>
-		<p class="cart-item" data-uid="234"><span class="cart-p-title">mobile phone</span> <span class="cart-p-price">15.00</span> <input class="cart-p-qty" value="1" /> <button class="myButton cart-add">add to cart</button></p>
-		<p class="cart-item" data-uid="345"><span class="cart-p-title">pen</span> <span class="cart-p-price">25.00</span> <button class="myButton cart-add">add to cart</button> - no qty, defaults to 1</p>
-		<p class="cart-item" data-uid="abc-1"><span class="cart-p-title">ABC set (1)</span> <span class="cart-p-price">00.00</span> <button class="myButton cart-add">add to cart</button> - this is a free item</p>
-		<p class="cart-item" data-uid="abc-2"><span class="cart-p-title">ABC set (2)</span> <span class="cart-p-price">FREE</span> <button class="myButton cart-add">add to cart</button> - as is this</p>
-		<p class="cart-item" data-uid="456"><span class="cart-p-title">pencil</span> <span class="cart-p-price">25.00</span> <span class="cart-p-custom">custom value</span> <button class="myButton cart-add">add to cart</button> - custom properties, run DC.get() to see it in action</p>
-		<p class="cart-item" data-uid="567"><span class="cart-p-title">bricks</span> <button class="myButton cart-add">add to cart</button> - no price, defaults to free</p>
-		<p data-uid="678"><span class="cart-p-title">blocks</span> <button class="myButton cart-add">add to cart</button> - not in a &quot;cart-item&quot; class, breaks</p>
-		<p class="cart-item"><span class="cart-p-title">doodah</span> <button class="myButton cart-add">add to cart</button> - no uid, breaks</p>
+		<p class="cart-item" data-uid="234">
+			<span class="cart-p-title">mobile phone</span>
+			<span class="cart-p-price">15.00</span>
+			<input class="cart-p-qty" value="1" />
+			<button class="myButton cart-add">add to cart</button>
+		</p>
+		<p class="cart-item" data-uid="345">
+			<span class="cart-p-title">pen</span>
+			<span class="cart-p-price">25.00</span>
+			<button class="myButton cart-add">add to cart</button>
+			no qty, defaults to 1
+		</p>
+		<p class="cart-item" data-uid="abc-1">
+			<span class="cart-p-title">ABC set (1)</span>
+			<span class="cart-p-price">00.00</span>
+			<button class="myButton cart-add">add to cart</button>
+			this is a free item
+		</p>
+		<p class="cart-item" data-uid="abc-2">
+			<span class="cart-p-title">ABC set (2)</span>
+			<span class="cart-p-price">FREE</span>
+			<button class="myButton cart-add">add to cart</button>
+			as is this
+		</p>
+		<p class="cart-item" data-uid="456">
+			<span class="cart-p-title">pencil</span>
+			<span class="cart-p-price">25.00</span>
+			<span class="cart-p-custom">custom value</span>
+			<button class="myButton cart-add">add to cart</button>
+			custom properties, run DC.get() in your js console
+		</p>
+		<p class="cart-item" data-uid="567">
+			<span class="cart-p-title">bricks</span>
+			<button class="myButton cart-add">add to cart</button>
+			no price, defaults to free
+		</p>
+		<p data-uid="678">
+			<span class="cart-p-title">blocks</span>
+			<button class="myButton cart-add">add to cart</button>
+			not in a &quot;cart-item&quot; class, breaks
+		</p>
+		<p class="cart-item">
+			<span class="cart-p-title">doodah</span>
+			<button class="myButton cart-add">add to cart</button>
+			no uid, breaks
+		</p>
 		
 		<hr />
 		
@@ -176,9 +225,9 @@
 			<li>it is actually a <strong>&lt;script&gt;</strong> element <em>(don't worry about it, it's OK)</em></li>
 			<li>must have <strong>id=&quot;cart-review-item-template&quot;</strong></li>
 			<li>the actual item must have the class <strong>&quot;cart-review-item&quot;</strong> <em>(it can have others too)</em></li>
-			<li>I have added a <em>very</em> crude templating engine that simply replaces {{property}} with the property taken from the original cart-item
+			<li>I have added a <em>very</em> crude templating engine that simply replaces ${property} with the property taken from the original cart-item
 				<ul>
-					<li>there is an additional property available: <strong>{{HREF}}</strong> is the URL that the user was on when they added the item <em>(handy to link back to the item)</em></li>
+					<li>there is an additional property available: <strong>${href}</strong> is the URL that the user was on when they added the item <em>(handy to link back to the item)</em></li>
 					<li>this simple functionality is enough for most cases, however if <a href="http://api.jquery.com/jquery.tmpl/">$.tmpl</a> is available then that is used instead</li>
 				</ul>
 			</li>
@@ -204,14 +253,18 @@
 		
 		<!-- The cart-link -->
 		<h2>optional &raquo; add a cart-link</h2>
-		<p>the cart-link element toggles the cart-review</p>
+		<p>the cart-link element is given a click event that toggles the cart-review element (below)</p>
 		<div class="myCode"><pre id="code-cart-link" class="brush: html"></pre></div>
+		<p>the cart-review element should contain the cart-review-items element, this is where I build my form that will post to a checkout page.</p>
+		<p>Take a another look at the cart-review-item-template to see that it will be populated with hidden inputs with my UIDS and quantities :-)</p>
+		<div class="myCode"><pre id="code-cart-review" class="brush: html"></pre></div>
 		
 		<hr />
 		
 		<!-- Get nerdy -->
 		<h2>get nerdy &raquo; a little about the code</h2>
 		<p>IMO it's definitely worth taking a look at the source code, it's a small file and well commented</p>
+		<div class="myCode"><pre id="code-source"></pre></div>
 	
 	</div>
 		
@@ -251,6 +304,16 @@
 		$('#code-cart-review-items').text($('#cart-review-items').outerHTML());
 		$('#code-cart-review-item-template').text($('#cart-review-item-template').outerHTML());
 		$('#code-cart-totals').text($('#my-demo-totals').html().autoTrimTabbing());
+		// Load the source
+		$.ajax({
+			url: 'dadscart.js',
+			dataType: "text",
+			success: function(code){
+				// Set the text, add the class and highlight
+				$('#code-source').text(code.autoTrimTabbing()).addClass('brush: js');
+				SyntaxHighlighter.highlight();
+			}
+		});
 		// And highlight
 		SyntaxHighlighter.all();
 	</script>
