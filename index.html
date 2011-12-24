@@ -59,15 +59,15 @@
 			<!-- Cart link -->
 			<span id="cart-link" data-currency="&pound;">
 				<img src="cart.png" width="32" height="32" />
-				<span class="cart-total-products">0</span>
+				<span class="cart-total-items">0</span>
 			</span>
 			<!-- Totals demo -->
-			<div id="my-demo-totals">
+			<p id="my-demo-totals">
 				total...
-				products: <span class="cart-total-products">0</span>,
 				items: <span class="cart-total-items">0</span>,
+				quantity: <span class="cart-total-qty">0</span>,
 				price: <span class="cart-total-price">0</span>
-			</div>
+			</p>
 			<!-- Message box -->
 			<div id="cart-message"></div>
 			<!-- Review -->
@@ -83,7 +83,7 @@
 					<div id="cart-review-items"></div>
 					<div class="headings">
 						<span class="description">Totals</span>
-						<span class="qty cart-total-items">0</span>
+						<span class="qty cart-total-qty">0</span>
 						<span class="price cart-total-price">0</span>
 						<div class="clear"></div>
 					</div>
@@ -189,7 +189,7 @@
 		
 		<!-- The tallies -->
 		<h2>optional &raquo; show the cart totals</h2>
-		<p><em>anything</em> with a class of <strong>&quot;cart-total-products&quot;</strong>, <strong>&quot;cart-total-items&quot;</strong> or <strong>&quot;cart-total-price&quot;</strong> are always populated with totals, handy for allsorts of things :-)</p>
+		<p><em>anything</em> with a class of <strong>&quot;cart-total-items&quot;</strong>, <strong>&quot;cart-total-qty&quot;</strong> or <strong>&quot;cart-total-price&quot;</strong> are always populated with totals, handy for allsorts of things :-)</p>
 		<div class="myCode"><pre id="code-cart-totals" class="brush: html"></pre></div>
 		
 		<hr />

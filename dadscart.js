@@ -115,15 +115,15 @@ DC.refresh = function(){
 	// Pull out the cart-data
 	var cart = DC.get();
 	// Populate the totals
-	var totals = { products: 0, items: 0, price: 0 };
+	var totals = { items: 0, qty: 0, price: 0 };
 	$.each(cart, function(k,v){
-		totals.products ++;
-		totals.items += v.qty;
+		totals.items ++;
+		totals.qty += v.qty;
 		totals.price += v.qty * v.price;
 	});
 	// Write em
-	$('.cart-total-products').html(totals.products);
 	$('.cart-total-items').html(totals.items);
+	$('.cart-total-qty').html(totals.qty);
 	$('.cart-total-price').html(DC.toMoney(totals.price));
 	// Build the products listing...
 	$('#cart-review-items').empty();
