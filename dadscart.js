@@ -7,8 +7,6 @@ DC.init = function(e){
 	// Pull out the currency if we can
 	DC.currency = $('#cart-link').attr('data-currency') || DC.currency;
 	// Activate the cart-add and cart-remove buttons
-	// $('.cart-add').click(DC.add);
-	// $('.cart-remove').click(DC.remove);
 	$('.cart-add').on('click', DC.add);
 	$('.cart-remove').on('click', DC.remove);
 	// Activate the review toggling
@@ -45,10 +43,10 @@ DC.add = function(e){
 		return;
 	}
 	// Find all the "properties" of the item
-	var properties = item.find("[class^='cart-'], [class*=' cart-']");
+	var properties = item.find("[class^='cart-p-'], [class*=' cart-p-']");
 	// Build them into a proper data object
 	var itemdata = {};
-	var regex = /(^|\s)cart\-(.*)/i;
+	var regex = /(^|\s)cart-p-(.*)/i;
 	$.each(properties, function(k,v){
 		// The value is either an :input val or html contents
 		var value = $(this).val() || $(this).html();
@@ -60,11 +58,6 @@ DC.add = function(e){
 			itemdata[tmp[2]] = value;
 		}
 	});
-	// It must have a price
-	if(!itemdata.price){
-		DC.message('couldn\'t add item to cart');
-		return;
-	}
 	// Add the uid and the current url
 	itemdata.uid	= item.attr('data-uid');
 	itemdata.href	= location.href;
@@ -136,7 +129,7 @@ DC.refresh = function(){
 	$('#cart-review-items').empty();
 	$.each(cart, function(k,v){
 		// Pull out the template
-		var tmpl = $('#cart-review-item').html();
+		var tmpl = $('#cart-review-item-template').html();
 		// Loop all the properties and replace the placeholders
 		$.each(v, function(k2,v2){
 			// If it's the price, moneyfy it
@@ -164,5 +157,5 @@ DC.toMoney = function(value){
 	return DC.currency + parseFloat(value).toFixed(2);
 };
 DC.message = function(html){
-	$('#cart-message').stop(true).html(html).fadeIn(400).delay(800).fadeOut(400);
+	$('#cart-message').stop(true, true).html(html).fadeIn(400).delay(800).fadeOut(400);
 };
