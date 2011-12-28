@@ -97,6 +97,8 @@ DC.remove = function(e){
 	delete cart[item.attr('data-uid')];
 	// Store the cart-data
 	var cart = $.jStorage.set('dads-cart', cart);
+	// Show a message
+	DC.message('item removed from cart');
 	// Refresh the interface
 	DC.refresh();
 	// If the review is open, we dont want to close it
