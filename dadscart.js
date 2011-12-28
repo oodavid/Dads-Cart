@@ -60,12 +60,17 @@ DC.add = function(e){
 	itemdata.uid	= item.attr('data-uid');
 	itemdata.href	= location.href;
 	// qty defaults to 1, price to 0
-	itemdata.qty	= parseFloat(itemdata.qty)		|| 1;
+	itemdata.qty	= parseInt(itemdata.qty, 10)	|| 1;
 	itemdata.price	= parseFloat(itemdata.price)	|| 0;
 	// Do we already have an item with that uid?
 	if(cart[itemdata.uid]){
 		// Update the qty
 		itemdata.qty += cart[itemdata.uid].qty;
+	}
+	// Must have a positive qty otherwise we are removing...
+	if(itemdata.qty <= 0){
+		DC.remove.apply(this, [e]);
+		return;
 	}
 	// Set the item
 	cart[itemdata.uid] = itemdata;
