@@ -12,7 +12,7 @@
 		#container {width: 800px; padding: 10px; margin: 0 auto; background: #FFFFFF;}
 		/* Dad's Cart! */
 			/* Generally speaking... */
-				.myButton {padding: 2px 6px; font-weight: bold; background: #B0356A; color: #FFFFFF; text-align: center; border: none; cursor: pointer; -webkit-border-radius: 2px; -moz-border-radius: 2px; border-radius: 2px;}
+				button {padding: 2px 6px; font-weight: bold; background: #B0356A; color: #FFFFFF; text-align: center; border: none; cursor: pointer; -webkit-border-radius: 2px; -moz-border-radius: 2px; border-radius: 2px;}
 			/* The link */
 				#cart-link		{padding: 10px; line-height: 32px; background: #E6E6E6; cursor: pointer;}
 				#cart-link img	{vertical-align: middle;}
@@ -85,7 +85,7 @@
 					<div class="clear"></div>
 				</div>
 				<!-- Post the form :-) -->
-				<button class="myButton submit" type="submit">checkout (this goes nowhere)</button>
+				<button class="submit" type="submit">checkout (this goes nowhere)</button>
 				<div class="clear"></div>
 			</form>
 		</div>
@@ -94,13 +94,14 @@
 		<script id="cart-review-item-template" type="text/x-jquery-tmpl">
 			<div class="cart-review-item">
 				<!-- Our <form> needs to know the id and quantity -->
-				<input type="hidden" name="checkout[${uid}]" value="${qty}" />
+				<input type="hidden" name="checkout[${cart-p-uid}]" value="${cart-p-qty}" />
 				<!-- Some info for the user -->
-				<a class="description" href="${href}">${title}</a>
-				<span class="qty">${qty}</span>
-				<span class="price">${price}</span>
-				<!-- To remove the item -->
-				<span class="myButton cart-remove">remove</span>
+				<a href="${cart-p-href}">${cart-p-title}</a>
+				<input class="cart-p-qty" value="${cart-p-qty}" />
+				<span>${cart-p-price}</span>
+				<!-- To update / remove the item -->
+				<span class="cart-update">update</span>
+				<span class="cart-remove">remove</span>
 				<div class="clear"></div>
 			</div>
 		</script>
@@ -118,59 +119,78 @@
 			quantity: <span class="cart-total-qty">0</span>,
 			price: <span class="cart-total-price">0</span>
 		</p>
-		
-		<!-- You define your items in the following manner -->
+
+		<!-- Well-formed items -->
+		<h2>Well-formed items</h2>
+		<p class="cart-item" data-uid="abc">
+			<!-- The item properties (anything you like) -->
+			<span class="cart-p-title">coffee cup</span>,
+			<span class="cart-p-desc">white</span>,
+			<span class="cart-p-volume">330ml</span>,
+			<!-- Required properties -->
+			&pound;<span class="cart-p-price">10.00</span> each
+			<input class="cart-p-qty" value="1" />
+			<!-- Optional elements - you really should have update though ;-) -->
+			<button class="cart-update" data-update="update cart">add to cart</button>
+			<button class="cart-remove">remove</button>
+		</p>
+
+
+
 		<p class="cart-item" data-uid="123">
 			<span class="cart-p-title">coffee cup</span>
 			<span class="cart-p-price">10.00</span>
 			<input class="cart-p-qty" value="1" />
-			<button class="myButton cart-add">add to cart</button>
+			<button class="cart-update" data-update="update cart">add to cart</button>
 		</p>
 		<p class="cart-item" data-uid="234">
 			<span class="cart-p-title">mobile phone</span>
 			<span class="cart-p-price">15.00</span>
 			<input class="cart-p-qty" value="1" />
-			<button class="myButton cart-add">add to cart</button>
+			<button class="cart-update">add to cart</button>
 		</p>
 		<p class="cart-item" data-uid="345">
 			<span class="cart-p-title">pen</span>
 			<span class="cart-p-price">25.00</span>
-			<button class="myButton cart-add">add to cart</button>
+			<button class="cart-update">add to cart</button>
 			no qty, defaults to 1
 		</p>
 		<p class="cart-item" data-uid="abc-1">
 			<span class="cart-p-title">ABC set (1)</span>
 			<span class="cart-p-price">00.00</span>
-			<button class="myButton cart-add">add to cart</button>
+			<button class="cart-update">add to cart</button>
 			this is a free item
 		</p>
 		<p class="cart-item" data-uid="abc-2">
 			<span class="cart-p-title">ABC set (2)</span>
 			<span class="cart-p-price">FREE</span>
-			<button class="myButton cart-add">add to cart</button>
+			<button class="cart-update">add to cart</button>
 			as is this
 		</p>
 		<p class="cart-item" data-uid="456">
 			<span class="cart-p-title">pencil</span>
 			<span class="cart-p-price">25.00</span>
 			<span class="cart-p-custom">custom value</span>
-			<button class="myButton cart-add">add to cart</button>
+			<button class="cart-update">add to cart</button>
 			custom properties, run DC.get() in your js console
 		</p>
 		<p class="cart-item" data-uid="567">
 			<span class="cart-p-title">bricks</span>
-			<button class="myButton cart-add">add to cart</button>
+			<button class="cart-update">add to cart</button>
 			no price, defaults to free
 		</p>
+
+		<!-- Malformed items -->
+		<h2>Malformed items</h2>
 		<p data-uid="678">
 			<span class="cart-p-title">blocks</span>
-			<button class="myButton cart-add">add to cart</button>
-			not in a &quot;cart-item&quot; class, breaks
+			<button class="cart-update">add to cart</button>
+			not in a &quot;cart-item&quot; class
 		</p>
 		<p class="cart-item">
 			<span class="cart-p-title">doodah</span>
-			<button class="myButton cart-add">add to cart</button>
-			no uid, breaks
+			<button class="cart-update">add to cart</button>
+			no uid
 		</p>
 		
 		<hr />
@@ -200,7 +220,12 @@
 		<ul>
 			<li>must have a class of <strong>&quot;cart-item&quot;</strong> <em>(it can have others too)</em></li>
 			<li>must also have a <strong>data-uid</strong> attribute so it can be uniquely identified <em>(this doesn't have to be a number, it could be a SKU, string, whatever)</em></li>
-			<li>any element with a class of <strong>&quot;cart-add&quot;</strong> will add the item to the cart onclick</li>
+			<li>any element with a class of <strong>&quot;cart-update&quot;</strong> will add the item to the cart onclick
+				<ul>
+					<li>if this element has a <strong>data-update=&quot;update cart&quot;</strong> property then the button will EITHER add or update, depending on the state of the cart.</li>
+					<li>the value of <strong>data-update=&quot;update cart&quot;</strong> states the text if this item is in the cart already.</li>
+				</ul>
+			</li>
 			<li>any element with a class of <strong>&quot;cart-remove&quot;</strong> will remove the item from the cart onclick <em>(not shown in this example)</em></li>
 			<li>you can give the item <em>&quot;properties&quot;</em> by adding a class of <strong>&quot;cart-p-*&quot;</strong> to any element <em>(here we have title, price and qty but you may want thumbnail, desc etc...)</em></li>
 			<li>there are 2 special properties:
@@ -228,10 +253,9 @@
 			<li>it is actually a <strong>&lt;script&gt;</strong> element <em>(don't worry about it, it's OK)</em></li>
 			<li>must have <strong>id=&quot;cart-review-item-template&quot;</strong></li>
 			<li>the actual item must have the class <strong>&quot;cart-review-item&quot;</strong> <em>(it can have others too)</em></li>
-			<li>I have added a <em>very</em> crude templating engine that simply replaces ${property} with the property taken from the original cart-item
+			<li>I have added a <em>very</em> crude templating engine that simply replaces ${cart-p-property} with the property taken from the original cart-item
 				<ul>
-					<li>there is an additional property available: <strong>${href}</strong> is the URL that the user was on when they added the item <em>(handy to link back to the item)</em></li>
-					<li>this simple functionality is enough for most cases, however if <a href="http://api.jquery.com/jquery.tmpl/">$.tmpl</a> is available then that is used instead</li>
+					<li>there is an additional property available: <strong>${cart-p-href}</strong> is the URL that the user was on when they added the item <em>(handy to link back to the item)</em></li>
 				</ul>
 			</li>
 		</ul>
