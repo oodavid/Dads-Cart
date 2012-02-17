@@ -222,12 +222,11 @@
 			<li>must also have a <strong>data-uid</strong> attribute so it can be uniquely identified <em>(this doesn't have to be a number, it could be a SKU, string, whatever)</em></li>
 			<li>any element with a class of <strong>&quot;cart-update&quot;</strong> will add the item to the cart onclick
 				<ul>
-					<li>if this element has a <strong>data-update=&quot;update cart&quot;</strong> property then the button will EITHER add or update, depending on the state of the cart.</li>
-					<li>the value of <strong>data-update=&quot;update cart&quot;</strong> states the text if this item is in the cart already.</li>
+					<li>the value of <strong>data-update</strong> attribute value states the text if this item is in the cart already.</li>
 				</ul>
 			</li>
 			<li>any element with a class of <strong>&quot;cart-remove&quot;</strong> will remove the item from the cart onclick <em>(not shown in this example)</em></li>
-			<li>you can give the item <em>&quot;properties&quot;</em> by adding a class of <strong>&quot;cart-p-*&quot;</strong> to any element <em>(here we have title, price and qty but you may want thumbnail, desc etc...)</em></li>
+			<li>you can give the item <em>&quot;properties&quot;</em> by adding a class of <strong>&quot;cart-p-*&quot;</strong> to any element <em>(here we have title, desc, volume, price and qty but you may want thumbnail, desc etc...)</em></li>
 			<li>there are 2 special properties:
 				<ul>
 					<li><strong>cart-p-qty</strong> represents the quantity to add when the user adds the item, an input is handy for this <em>(if missing, this defaults to 1)</em></li>

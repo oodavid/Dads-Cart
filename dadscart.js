@@ -165,13 +165,13 @@ DC.refresh = function(){
 		// Add it
 		$('#cart-review-items').append(item);
 	});
-	// Update the items on the page
+	// Update the regular items on the page
 	$('.cart-item').each(function(k,v){
-		// What's the uid?
+		// Whats the uid?
 		var uid = $(this).attr('data-uid');
 		// If we have them in the cart...
 		if(cart[uid]){
-			// If we haven't already, store the "add" text
+			// If we havent already, store the "add" text
 			if(!$(this).data('cart-add')){
 				$(this).data('cart-add', $(this).find('.cart-update').html());
 			}
